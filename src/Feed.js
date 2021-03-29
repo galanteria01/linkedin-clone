@@ -9,9 +9,13 @@ import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
 import Post from './Post';
 import {database} from './firebase';
 import firebase from 'firebase';
+import { selectUser } from './features/userSlice';
+import { useSelector } from 'react-redux';
+import FlipMove from 'react-flip-move';
 
 const Feed = () => {
 
+    const user = useSelector(selectUser);
     const [posts, setPosts] = useState([]);
     const [input,setInput] = useState("");
     useEffect( () => {
@@ -28,10 +32,10 @@ const Feed = () => {
     const sendPost = (e) => {
         e.preventDefault();
         database.collection('posts').add({
-            name : "Shoury Sharma",
-            description : "Full Stack Developer",
+            name : user.displayName,
+            description : user.email,
             message : input,
-            photoUrl: "",
+            photoUrl: user.photoUrl || "",
             timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
         })
         setInput("");
@@ -56,6 +60,7 @@ const Feed = () => {
                 
             </div>
             <div>
+            <FlipMove>
                 {posts.map( ({id, data: { name, description, message, photoUrl}}) => (
                     <Post 
                     key= {id}
@@ -65,10 +70,12 @@ const Feed = () => {
                     photoUrl= {photoUrl}
                     />
                 ) )}
+            </FlipMove>
+                
                 
             </div>
         </div>
     )
-}
+}  
 
 export default Feed

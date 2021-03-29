@@ -7,12 +7,23 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import ChatIcon from '@material-ui/icons/Chat';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import { mAuth } from './firebase';
+import { logout, selectUser } from './features/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Header = () => {
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
+
+    const logoutOfApp = () => {
+        dispatch(logout());
+        mAuth.signOut();
+    };
+
     return (
         <div className="header">
             <div className="header__left">
-                <img src="https://www.flaticon.com/svg/vstatic/svg/174/174857.svg?token=exp=1616757813~hmac=2609c29993e5e5e68a82d3aaeb91336a"/>
+                <img src="https://pngimg.com/uploads/linkedIn/linkedIn_PNG38.png"/>
                 <div className="header__search">
                 <SearchIcon />
                     <input type="text" placeholder="Search"/>
@@ -24,7 +35,7 @@ const Header = () => {
                 <HeaderOption title="Jobs" Icon={BusinessCenterIcon} />
                 <HeaderOption title="Messaging" Icon={ChatIcon} />
                 <HeaderOption title="Notifications" Icon={NotificationsIcon} />
-                <HeaderOption title="Me" avatar="https://media1.popsugar-assets.com/files/thumbor/ZCWD9YXxqYzk9riO2WR2OrxzWUw/721x0:1801x1080/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2019/07/01/098/n/46207611/5d2cc4f65d1ab1d1992803.52716266_/i/Why-Tony-Stark-Best-Marvel-Character.jpg" />
+                <HeaderOption onClick={logoutOfApp} title="Me" avatar={true} />
 
             </div>
         </div>
