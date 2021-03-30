@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './Login.css';
-import {mAuth} from './firebase';
+import {mAuth} from '../firebase';
 import { useDispatch } from 'react-redux';
-import { login,logout } from './features/userSlice'
+import { login,logout } from '../features/userSlice'
 const Login = (props) => {
 
     const [name,setName] = useState("");
